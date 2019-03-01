@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一次全校验，以元素innerHTML提示</title>
+	<style>
+		form {
+			display: block;
+			width: 60%;
+			margin: 50px auto;
+		}
+		form input {
+			display: block;
+			width: 60%;
+			margin: 10px 0; 
+		}
+		.success {
+			border: 1px solid green;
+			height: 20px;
+		}
+		.error {
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<form id="myForm" method="post">
+		<label>
+			手机： <input name="phone" type="text"><div data-message='phone'></div>
+		</label>
+		<label>
+			邮箱： <input name="email" type="text"><div data-message='email'></div>
+		</label>
+		<label>
+			地址： <input name="address" type="text"><div data-message='address'></div>
+		</label>
+		<label>
+			账号： <input name="username" type="text"><div data-message='username'></div>
+		</label>
+		<label>
+			密码： <input name="password" type="text"><div data-message='password'></div>
+		</label>
+		<label>
+			日期： <input name="date" type="text"><div data-message='date'></div>
+		</label>
+		<input type="submit" value=" 提交" id="submit">
+	</form>
+	<script src="js/jquery-2.2.4.js"></script>
+	<script src="js/freeCheck.js"></script>
+	<script>
+		$('#submit').on('click', function (e) {
+			e.preventDefault()
+			// 获取表单数据并格式化
+			// var formData = $('#myForm').serialize()
+			// formData = decodeURIComponent(formData,true)
+			// formData = window.FormCheck.FormDataJson(formData)
+			// 开始校验
+			FormCheck.checkEach({
+				$id:　'myForm',
+				$successCls: 'success',
+				$errorCls: 'error'
+				,keyMap: { // 字段对应的文字
+					email: '电子邮箱',
+					username: '姓名',
+					phone: '电话',
+					password:'自定义密码'
+				}
+				,message: { // 匹配不通过时的消息提示
+					// email: '邮箱格式不正确！',
+					username: '用户名不正确！',
+					phone: '电话格式不正确！'
+				}
+				,rules: { // 匹配规则
+					address: /^[\d]{2}$/,
+					phone: 'phone',
+					email: 'email'
+				}
+				,requistite: { // 是否为必选项
+					address: true ,
+					email: true,
+					phone: true,
+					password:true
+				}
+				/*,error: function (res) {
+					console.log(res)
+				}*/
+				,success: function (res) {
+					alert('ok')
+				}
+			})
+		})
+	</script>
+</body>
+</html>

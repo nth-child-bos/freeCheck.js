@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一次全校验，以对话框提示</title>
+	<style>
+		form {
+			display: block;
+			width: 60%;
+			margin: 50px auto;
+		}
+		form input {
+			display: block;
+			width: 60%;
+			margin: 10px 0; 
+		}
+	</style>
+</head>
+<body>
+	<form id="myForm" method="post">
+		<label>
+			手机： <input name="phone" type="text">
+		</label>
+		<label>
+			邮箱： <input name="email" type="text">
+		</label>
+		<label>
+			地址： <input name="address" type="text">
+		</label>
+		<label>
+			账号： <input name="username" type="text">
+		</label>
+		<label>
+			密码： <input name="password" type="text">
+		</label>
+		<label>
+			日期： <input name="date" type="text">
+		</label>
+		<input type="submit" value=" 提交" id="submit">
+	</form>
+	<script src="js/jquery-2.2.4.js"></script>
+	<script src="js/freeCheck.js"></script>
+	<script>
+		$('#submit').on('click', function (e) {
+			e.preventDefault()
+			// 获取表单数据并格式化
+			var formData = $('#myForm').serialize()
+			formData = decodeURIComponent(formData,true)
+			// 开始校验
+			FormCheck.checkAll({
+				formData:　formData // 表单数据
+				,keyMap: { // 字段对应的文字
+					email: '邮箱',
+					username: '姓名',
+					phone: '电话'
+				}
+				,message: { // 匹配不通过时的消息提示
+					email: '邮箱格式不正确！',
+					username: '用户名不正确！',
+					phone: '电话格式不正确！'
+				}
+				,rules: { // 匹配规则
+					address: /^[\d]{2}$/,
+					phone: 'phone', // 内置了匹配规则
+					email: 'email'
+				}
+				,requistite: { // 是否为必选项
+					address: true 
+				}
+				,error: function (res) { // 失败时的提示-不传默认为对话框
+					alert(res)
+				}
+				,success: function (res) {
+					alert('ok')
+				}
+			})
+		})
+	</script>
+</body>
+</html>
